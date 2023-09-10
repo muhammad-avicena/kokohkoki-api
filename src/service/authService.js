@@ -74,7 +74,7 @@ class AuthService {
 
       if (password.length >= 8 && /^(?=.*[a-zA-Z])(?=.*[0-9])/.test(password)) {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await this.authDao.addUser({
+        const user = await this.authDao.createUser({
           username,
           password: hashedPassword,
         });

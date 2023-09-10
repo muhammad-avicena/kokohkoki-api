@@ -11,7 +11,7 @@ class AuthDao {
     return user;
   }
 
-  async addUser({ username, password }) {
+  async createUser({ username, password }) {
     const newDate = new Date();
     const createdDate = format(newDate, "yyyy-MM-dd");
     const role = "member";
@@ -36,9 +36,7 @@ class AuthDao {
   }
 
   async closeConnection() {
-    if (this.db) {
-      await this.db.client.close();
-    }
+    await this.db.client.close();
   }
 }
 

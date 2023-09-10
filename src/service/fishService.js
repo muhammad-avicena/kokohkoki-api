@@ -32,7 +32,54 @@ class FishService {
         data: fish,
         status: 200,
       };
+    } catch (err) {
+      console.log(err.message);
+      throw new StandardError({
+        success: false,
+        status: err.status,
+        message: err.message,
+      });
+    }
+  }
 
+  async addFish({
+    name,
+    type,
+    price,
+    gender,
+    size,
+    desc,
+    images,
+    videoURLs,
+    isAvailable,
+  }) {
+    try {
+      const fish = await this.fishDao.createFish({
+        name,
+        type,
+        price,
+        gender,
+        size,
+        desc,
+        images,
+        videoURLs,
+        isAvailable,
+      });
+
+      if (!fish) {
+        throw new StandardError({
+          success: false,
+          message: "Cannot add fish. Please try again.",
+          status: 400,
+        });
+      }
+
+      return {
+        success: true,
+        message: "Successfully added a fish.",
+        data: fish.insertedId,
+        status: 201,
+      };
     } catch (err) {
       console.log(err.message);
       throw new StandardError({
