@@ -18,7 +18,7 @@ class AuthService {
           status: 401,
         });
       }
-
+      const expirationTime = 60 * 60 * 24;
       const isPasswordCorrect = await bcrypt.compare(password, user.password);
       if (isPasswordCorrect) {
         const token = jwt.sign(
@@ -27,7 +27,8 @@ class AuthService {
             username: user.username,
             role: user.role,
           },
-          JWT_SIGN
+          JWT_SIGN,
+          { expiresIn: expirationTime }
         );
         return {
           success: true,
