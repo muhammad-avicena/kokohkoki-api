@@ -37,7 +37,7 @@ class AuthDao {
 
   async closeConnection() {
     if (this.db) {
-      await this.db.close();
+      await this.db.client.close();
     }
   }
 }
