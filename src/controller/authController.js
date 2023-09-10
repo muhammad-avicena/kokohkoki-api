@@ -40,7 +40,7 @@ async function registerUser(req, res, next) {
       return res.status(result.status).json({
         success: true,
         message: result.message,
-        data: result.data,
+        data: { _id: result.data },
       });
     } else {
       return res.status(result.status).json({
