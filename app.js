@@ -9,6 +9,7 @@ const errorHandlerMiddleware = require("./src/middleware/errorHandlerMiddleware"
 
 // Import router files
 const authRouter = require("./src/router/authRoutes");
+const fishRouter = require("./src/router/fishRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -21,6 +22,7 @@ app.use(databaseMiddleware);
 
 // Routes
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/fish", fishRouter);
 
 // Error handler middleware
 app.use(errorHandlerMiddleware);
