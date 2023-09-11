@@ -44,7 +44,10 @@ class FishService {
 
   async getFishByName({ name }) {
     try {
-      const fish = await this.fishDao.findByName({ name });
+      const regexName = new RegExp(name, "i");
+      const fish = await this.fishDao.findByName({
+        name: { $regex: regexName },
+      });
       if (!fish) {
         throw new StandardError({
           success: false,

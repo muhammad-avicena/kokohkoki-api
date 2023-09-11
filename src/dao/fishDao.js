@@ -16,10 +16,20 @@ class FishDao {
   }
 
   async findByName({ name }) {
-    const fish = await this.db
-      .collection("fishes")
-      .findOne({ name, isDeleted: { $exists: false } });
-    return fish;
+    try {
+      const fish = await this.db
+        .collection("fishes")
+        .findOne({ name, isDeleted: { $exists: false } });
+
+      return fish;
+    } catch (err) {
+      console.log(err.message);
+      throw new StandardError({
+        success: false,
+        status: err.status,
+        message: err.message,
+      });
+    }
   }
 
   async createFish({
@@ -38,6 +48,12 @@ class FishDao {
     const newDate = new Date();
     const createdDate = format(newDate, "yyyy-MM-dd hh:mm");
 
+    const images = {
+      image1,
+      image2,
+      image3,
+    };
+
     const fishData = {
       name,
       type,
@@ -45,9 +61,7 @@ class FishDao {
       gender,
       size,
       desc,
-      image1,
-      image2,
-      image3,
+      images,
       videoURL,
       isAvailable,
       createdDate,
@@ -89,9 +103,13 @@ class FishDao {
     if (gender !== undefined) updateObject.gender = gender;
     if (size !== undefined) updateObject.size = size;
     if (desc !== undefined) updateObject.desc = desc;
-    if (image1 !== undefined) updateObject.image1 = image1;
-    if (image2 !== undefined) updateObject.image1 = image2;
-    if (image3 !== undefined) updateObject.image3 = image3;
+    if (image1 !== undefined || image2 !== undefined || image3 !== undefined) {
+      updateObject.images = {
+        image1,
+        image2,
+        image3,
+      };
+    }
     if (videoURL !== undefined) updateObject.videoURLs = videoURL;
     if (isAvailable !== undefined) updateObject.isAvailable = isAvailable;
 
