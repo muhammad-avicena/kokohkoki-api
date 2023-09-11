@@ -81,7 +81,7 @@ class AuthService {
         return {
           success: true,
           message: "Successfully registered a user",
-          data: user.insertedId,
+          data: { _id: user.insertedId },
           status: 201,
         };
       } else {

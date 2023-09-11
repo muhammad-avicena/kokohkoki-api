@@ -1,13 +1,14 @@
 const { format } = require("date-fns");
 const StandardError = require("../utils/constant/standardError");
+
 class FishDao {
   constructor(db) {
     this.db = db;
   }
 
   async getAllFish() {
-    const fishCollection = this.db.collection("fishes");
-    const fish = await fishCollection
+    const fish = await this.db
+      .collection("fishes")
       .find({ isDeleted: { $exists: false } })
       .toArray();
     return fish;
@@ -49,8 +50,15 @@ class FishDao {
       });
     }
 
-    const result = await this.db.collection("fishes").insertOne(fishData);
-    return result;
+    const fish = await this.db.collection("fishes").insertOne(fishData);
+    return fish;
+  }
+
+  async findByName({ name }) {
+    const fish = await this.db
+      .collection("fishes")
+      .findOne({ name, isDeleted: { $exists: false } });
+    return fish;
   }
 
   async closeConnection() {

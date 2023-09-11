@@ -77,8 +77,34 @@ class FishService {
       return {
         success: true,
         message: "Successfully added a fish.",
-        data: fish.insertedId,
+        data: { _id: fish.insertedId },
         status: 201,
+      };
+    } catch (err) {
+      console.log(err.message);
+      throw new StandardError({
+        success: false,
+        status: err.status,
+        message: err.message,
+      });
+    }
+  }
+
+  async getFishByName({ name }) {
+    try {
+      const fish = await this.fishDao.findByName({ name });
+      if (!fish) {
+        throw new StandardError({
+          success: false,
+          message: "Fish not found.",
+          status: 404,
+        });
+      }
+      return {
+        success: true,
+        message: "Successfully found a fish",
+        data: fish,
+        status: 200,
       };
     } catch (err) {
       console.log(err.message);

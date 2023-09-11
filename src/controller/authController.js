@@ -1,26 +1,22 @@
 const AuthDao = require("../dao/authDao");
 const AuthService = require("../service/authService");
 
-async function loginUser(req, res, next) {
-  const { username, password } = req.body;
+function sendResponse(res, result) {
+  return res.status(result.status).json({
+    success: result.success,
+    message: result.message,
+    data: result.data,
+  });
+}
+
+async function handleRequest(req, res, next, serviceFunction) {
   const { db } = req;
   const authDao = new AuthDao(db);
 
   try {
     const authService = new AuthService(authDao);
-    const result = await authService.loginUser({ username, password });
-    if (result.success) {
-      return res.status(result.status).json({
-        success: true,
-        message: result.message,
-        data: result.data,
-      });
-    } else {
-      return res.status(result.status).json({
-        success: false,
-        message: result.message,
-      });
-    }
+    const result = await serviceFunction(authService, req);
+    sendResponse(res, result);
   } catch (err) {
     next(err);
   } finally {
@@ -28,31 +24,16 @@ async function loginUser(req, res, next) {
   }
 }
 
-async function registerUser(req, res, next) {
-  const { username, password } = req.body;
-  const { db } = req;
-  const authDao = new AuthDao(db);
+async function loginUser(req, res, next) {
+  await handleRequest(req, res, next, (authService, req) =>
+    authService.loginUser(req.body)
+  );
+}
 
-  try {
-    const authService = new AuthService(authDao);
-    const result = await authService.registerUser({ username, password });
-    if (result.success) {
-      return res.status(result.status).json({
-        success: true,
-        message: result.message,
-        data: { _id: result.data },
-      });
-    } else {
-      return res.status(result.status).json({
-        success: false,
-        message: result.message,
-      });
-    }
-  } catch (err) {
-    next(err);
-  } finally {
-    authDao.closeConnection();
-  }
+async function registerUser(req, res, next) {
+  await handleRequest(req, res, next, (authService, req) =>
+    authService.registerUser(req.body)
+  );
 }
 
 module.exports = {
