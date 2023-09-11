@@ -98,7 +98,7 @@ class FishDao {
       .collection("fishes")
       .findOne({ _id: objectId });
 
-    if (updateFish.value !== null && getFishLatestData) {
+    if (updateFish && getFishLatestData) {
       const result = {
         oldVersion: updateFish,
         updatedVersion: getFishLatestData,
@@ -111,6 +111,17 @@ class FishDao {
         status: 404,
       });
     }
+  }
+
+  async deleteFish({ id }) {
+    const objectId = new ObjectId(id);
+    const updateFish = await this.db.collection("fishes").findOneAndUpdate(
+      { _id: objectId },
+      {
+        $set: { isDeleted: true },
+      }
+    );
+    return updateFish;
   }
 
   async closeConnection() {

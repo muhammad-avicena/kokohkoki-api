@@ -4,6 +4,7 @@ const {
   addFish,
   getFishByName,
   updateFish,
+  deleteFish,
 } = require("../controller/fishController");
 const { adminAuthorization } = require("../middleware/authMiddleware");
 
@@ -18,5 +19,6 @@ router.get("/", (req, res, next) => {
 });
 router.post("/", adminAuthorization, addFish);
 router.put("/:id", adminAuthorization, updateFish);
+router.delete("/:id", adminAuthorization, deleteFish);
 
 module.exports = router;

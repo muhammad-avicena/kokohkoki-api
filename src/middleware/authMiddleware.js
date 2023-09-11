@@ -40,10 +40,12 @@ const authorizationMiddleware = (allowedRoles) => (req, res, next) => {
   }
 };
 
-const adminAuthorization = authorizationMiddleware(["admin"]);
+const adminAuthorization = authorizationMiddleware(["admin", "manager"]);
+const managerAuthorization = authorizationMiddleware(["manager"]);
 
 
 module.exports = {
   userAuthentication,
   adminAuthorization,
+  managerAuthorization
 };

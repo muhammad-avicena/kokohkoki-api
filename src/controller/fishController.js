@@ -48,8 +48,14 @@ async function updateFish(req, res, next) {
     id,
     ...req.body,
   };
-  await handleRequest(req, res, next, (fishService, req) =>
+  await handleRequest(req, res, next, (fishService) =>
     fishService.updateFish(fishData)
+  );
+}
+
+async function deleteFish(req, res, next) {
+  await handleRequest(req, res, next, (fishService, req) =>
+    fishService.deleteFish(req.params)
   );
 }
 
@@ -58,4 +64,5 @@ module.exports = {
   addFish,
   getFishByName,
   updateFish,
+  deleteFish,
 };

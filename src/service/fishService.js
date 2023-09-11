@@ -174,6 +174,33 @@ class FishService {
       });
     }
   }
+
+  async deleteFish({ id }) {
+    try {
+      const fish = await this.fishDao.deleteFish({ id });
+
+      if (!fish) {
+        throw new StandardError({
+          success: false,
+          message: "Fish not found.",
+          status: 404,
+        });
+      }
+
+      return {
+        success: true,
+        message: "Successfully deleted a fish.",
+        data: fish,
+        status: 200,
+      };
+    } catch (err) {
+      throw new StandardError({
+        success: false,
+        status: err.status,
+        message: err.message,
+      });
+    }
+  }
 }
 
 module.exports = FishService;
