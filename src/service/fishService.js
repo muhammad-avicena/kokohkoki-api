@@ -75,8 +75,10 @@ class FishService {
     gender,
     size,
     desc,
-    images,
-    videoURLs,
+    image1,
+    image2,
+    image3,
+    videoURL,
     isAvailable,
   }) {
     try {
@@ -87,8 +89,10 @@ class FishService {
         gender,
         size,
         desc,
-        images,
-        videoURLs,
+        image1,
+        image2,
+        image3,
+        videoURL,
         isAvailable,
       });
 
@@ -124,8 +128,10 @@ class FishService {
     gender,
     size,
     desc,
-    images,
-    videoURLs,
+    image1,
+    image2,
+    image3,
+    videoURL,
     isAvailable,
   }) {
     try {
@@ -146,8 +152,10 @@ class FishService {
         gender,
         size,
         desc,
-        images,
-        videoURLs,
+        image1,
+        image2,
+        image3,
+        videoURL,
         isAvailable,
       });
 

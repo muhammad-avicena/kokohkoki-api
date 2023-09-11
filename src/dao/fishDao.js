@@ -29,8 +29,10 @@ class FishDao {
     gender,
     size,
     desc,
-    images,
-    videoURLs,
+    image1,
+    image2,
+    image3,
+    videoURL,
     isAvailable,
   }) {
     const newDate = new Date();
@@ -43,8 +45,10 @@ class FishDao {
       gender,
       size,
       desc,
-      images,
-      videoURLs,
+      image1,
+      image2,
+      image3,
+      videoURL,
       isAvailable,
       createdDate,
     };
@@ -70,8 +74,10 @@ class FishDao {
     gender,
     size,
     desc,
-    images,
-    videoURLs,
+    image1,
+    image2,
+    image3,
+    videoURL,
     isAvailable,
   }) {
     const objectId = new ObjectId(id);
@@ -83,8 +89,10 @@ class FishDao {
     if (gender !== undefined) updateObject.gender = gender;
     if (size !== undefined) updateObject.size = size;
     if (desc !== undefined) updateObject.desc = desc;
-    if (images !== undefined) updateObject.images = images;
-    if (videoURLs !== undefined) updateObject.videoURLs = videoURLs;
+    if (image1 !== undefined) updateObject.image1 = image1;
+    if (image2 !== undefined) updateObject.image1 = image2;
+    if (image3 !== undefined) updateObject.image3 = image3;
+    if (videoURL !== undefined) updateObject.videoURLs = videoURL;
     if (isAvailable !== undefined) updateObject.isAvailable = isAvailable;
 
     const updateFish = await this.db.collection("fishes").findOneAndUpdate(
