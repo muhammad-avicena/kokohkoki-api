@@ -1,4 +1,3 @@
-require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -6,6 +5,7 @@ const logger = require("morgan");
 const databaseMiddleware = require("./src/middleware/databaseMiddleware");
 const checkConnectionDb = require("./src/db/database");
 const errorHandlerMiddleware = require("./src/middleware/errorHandlerMiddleware");
+require("dotenv").config();
 
 // Import router files
 const authRouter = require("./src/router/authRoutes");
