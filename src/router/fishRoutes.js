@@ -3,6 +3,7 @@ const {
   getAllFish,
   addFish,
   getFishByName,
+  updateFish,
 } = require("../controller/fishController");
 const { adminAuthorization } = require("../middleware/authMiddleware");
 
@@ -16,5 +17,6 @@ router.get("/", (req, res, next) => {
   }
 });
 router.post("/", adminAuthorization, addFish);
+router.put("/:id", adminAuthorization, updateFish);
 
 module.exports = router;

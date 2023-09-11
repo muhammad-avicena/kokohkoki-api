@@ -42,8 +42,20 @@ async function getFishByName(req, res, next) {
   );
 }
 
+async function updateFish(req, res, next) {
+  const { id } = req.params;
+  const fishData = {
+    id,
+    ...req.body,
+  };
+  await handleRequest(req, res, next, (fishService, req) =>
+    fishService.updateFish(fishData)
+  );
+}
+
 module.exports = {
   getAllFish,
   addFish,
   getFishByName,
+  updateFish,
 };
