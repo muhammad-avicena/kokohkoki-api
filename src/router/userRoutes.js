@@ -8,6 +8,6 @@ const {
 const router = express.Router();
 
 router.get("/", adminAuthorization, getAllUser);
-router.patch("/role/:id", managerAuthorization ,updateRole);
+router.patch("/role/:id", managerAuthorization, updateRole);
 
 module.exports = router;
