@@ -25,8 +25,9 @@ async function handleRequest(req, res, next, serviceFunction) {
 }
 
 async function getAllFish(req, res, next) {
+  const { sort } = req.query;
   await handleRequest(req, res, next, (fishService) =>
-    fishService.getAllFish()
+    fishService.getAllFish({ sort })
   );
 }
 
@@ -42,6 +43,13 @@ async function getFishByName(req, res, next) {
   );
 }
 
+async function getFishByGender(req, res, next) {
+  const { gender, sort } = req.query;
+  await handleRequest(req, res, next, (fishService) =>
+    fishService.getFishByGender({ gender, sort })
+  );
+}
+
 async function updateFish(req, res, next) {
   const { id } = req.params;
   const fishData = {
@@ -54,8 +62,9 @@ async function updateFish(req, res, next) {
 }
 
 async function deleteFish(req, res, next) {
+  const { id } = req.params;
   await handleRequest(req, res, next, (fishService, req) =>
-    fishService.deleteFish(req.params)
+    fishService.deleteFish({ id })
   );
 }
 
@@ -63,6 +72,7 @@ module.exports = {
   getAllFish,
   addFish,
   getFishByName,
+  getFishByGender,
   updateFish,
   deleteFish,
 };

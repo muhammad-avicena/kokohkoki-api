@@ -7,10 +7,11 @@ class FishDao {
     this.db = db;
   }
 
-  async findAllFish() {
+  async findAllFish({ sortOptions }) {
     const fish = await this.db
       .collection("fishes")
       .find({ isDeleted: { $exists: false } })
+      .sort(sortOptions)
       .toArray();
     return fish;
   }
@@ -20,7 +21,24 @@ class FishDao {
       const fish = await this.db
         .collection("fishes")
         .findOne({ name, isDeleted: { $exists: false } });
+      return fish;
+    } catch (err) {
+      console.log(err.message);
+      throw new StandardError({
+        success: false,
+        status: err.status,
+        message: err.message,
+      });
+    }
+  }
 
+  async findByGenderAndSort({ gender, sortOptions }) {
+    try {
+      const fish = await this.db
+        .collection("fishes")
+        .find({ gender, isDeleted: { $exists: false } })
+        .sort(sortOptions)
+        .toArray();
       return fish;
     } catch (err) {
       console.log(err.message);
@@ -141,12 +159,9 @@ class FishDao {
 
   async deleteFish({ id }) {
     const objectId = new ObjectId(id);
-    const updateFish = await this.db.collection("fishes").findOneAndUpdate(
-      { _id: objectId },
-      {
-        $set: { isDeleted: true },
-      }
-    );
+    const updateFish = await this.db
+      .collection("fishes")
+      .findOneAndDelete({ _id: objectId });
     return updateFish;
   }
 

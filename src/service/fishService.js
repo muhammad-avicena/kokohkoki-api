@@ -5,9 +5,21 @@ class FishService {
     this.fishDao = fishDao;
   }
 
-  async getAllFish() {
+  async getAllFish({ sort }) {
     try {
-      const fish = await this.fishDao.findAllFish();
+      const sortOptions = {};
+
+      // Sort by creation date in ascending or descending order
+      if (sort === "asc") {
+        sortOptions.createdDate = 1;
+      } else if (sort === "desc") {
+        sortOptions.createdDate = -1;
+      } else {
+        // Default to ascending order if no valid sort option is provided
+        sortOptions.createdDate = 1;
+      }
+
+      const fish = await this.fishDao.findAllFish({ sortOptions });
 
       if (!fish) {
         throw new StandardError({
@@ -33,7 +45,65 @@ class FishService {
         status: 200,
       };
     } catch (err) {
-      console.log(err.message);
+      console.log(err);
+      throw new StandardError({
+        success: false,
+        status: err.status,
+        message: err.message,
+      });
+    }
+  }
+
+  async getFishByGender({ gender, sort }) {
+    try {
+      const allowedGender = ["male", "female"];
+      if (!allowedGender.includes(gender)) {
+        throw new StandardError({
+          success: false,
+          message: "Only male or female gender are allowed. Please try again",
+          status: 400,
+        });
+      }
+
+      const allowedSort = ["male", "female"];
+      if (!allowedSort.includes(sort)) {
+        throw new StandardError({
+          success: false,
+          message: "Only asc or desc sort are allowed. Please try again",
+          status: 400,
+        });
+      }
+
+      const sortOptions = {};
+      if (sort === "asc") {
+        sortOptions.createdDate = 1;
+      } else if (sort === "desc") {
+        sortOptions.createdDate = -1;
+      } else {
+        sortOptions.createdDate = 1;
+      }
+
+      const fish = await this.fishDao.findByGenderAndSort({
+        gender,
+        sortOptions,
+      });
+
+      if (!fish) {
+        throw new StandardError({
+          success: false,
+          message: "Fish not found.",
+          status: 404,
+        });
+      }
+
+      return {
+        success: true,
+        message: "List of fish by gender",
+        data: fish,
+        status: 200,
+      };
+    } catch (err) {
+      console.log(err);
       throw new StandardError({
         success: false,
         status: err.status,
@@ -99,11 +169,20 @@ class FishService {
         isAvailable,
       });
 
+      const allowedGender = ["male", "female"];
+      if (!allowedGender.includes(gender)) {
+        throw new StandardError({
+          success: false,
+          message: "Only male or female gender are allowed. Please try again",
+          status: 400,
+        });
+      }
+
       if (!fish) {
         throw new StandardError({
           success: false,
-          message: "Cannot add fish. Please try again.",
-          status: 400,
+          message: "Cannot add fish. Please try again or contact developer.",
+          status: 500,
         });
       }
 
@@ -114,7 +193,7 @@ class FishService {
         status: 201,
       };
     } catch (err) {
-      console.log(err.message);
+      console.log(err);
       throw new StandardError({
         success: false,
         status: err.status,
@@ -177,7 +256,7 @@ class FishService {
         status: 200,
       };
     } catch (err) {
-      console.log(err.message);
+      console.log(err);
       throw new StandardError({
         success: false,
         status: err.status,
@@ -205,6 +284,7 @@ class FishService {
         status: 200,
       };
     } catch (err) {
+      console.log(err);
       throw new StandardError({
         success: false,
         status: err.status,

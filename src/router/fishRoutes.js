@@ -3,6 +3,7 @@ const {
   getAllFish,
   addFish,
   getFishByName,
+  getFishByGender,
   updateFish,
   deleteFish,
 } = require("../controller/fishController");
@@ -10,11 +11,15 @@ const { adminAuthorization } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-router.get("/", (req, res, next) => {
-  if (req.query.name) {
-    getFishByName(req, res, next);
+router.get("/", async (req, res, next) => {
+  const { name, gender, sort } = req.query;
+
+  if (name) {
+    await getFishByName(req, res, next);
+  } else if ((gender && sort) || gender) {
+    await getFishByGender(req, res, next);
   } else {
-    getAllFish(req, res, next);
+    await getAllFish(req, res, next);
   }
 });
 router.post("/", adminAuthorization, addFish);
