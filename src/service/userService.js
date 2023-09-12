@@ -14,8 +14,14 @@ class UserService {
           message: "No user found.",
           status: 404,
         });
+      } else {
+        return {
+          status: 200,
+          success: true,
+          message: "List of all user",
+          data: user,
+        };
       }
-      return { status: 200, message: "List of all user", data: user };
     } catch (err) {
       console.log(err);
       throw new StandardError({
@@ -44,13 +50,14 @@ class UserService {
           message: "User not found.",
           status: 404,
         });
+      } else {
+        return {
+          status: 200,
+          success: true,
+          message: "Successfully update user role",
+          data: user,
+        };
       }
-      return {
-        status: 200,
-        success: true,
-        message: "Successfully update user role",
-        data: user,
-      };
     } catch (err) {
       console.log(err);
       throw new StandardError({
