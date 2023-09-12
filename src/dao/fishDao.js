@@ -19,7 +19,8 @@ class FishDao {
   async findByName({ name }) {
     const fish = await this.db
       .collection("fishes")
-      .findOne({ name, isDeleted: { $exists: false } });
+      .find({ name, isDeleted: { $exists: false } })
+      .toArray();
     return fish;
   }
 
