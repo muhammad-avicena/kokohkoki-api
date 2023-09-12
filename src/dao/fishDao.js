@@ -17,37 +17,28 @@ class FishDao {
   }
 
   async findByName({ name }) {
-    try {
-      const fish = await this.db
-        .collection("fishes")
-        .findOne({ name, isDeleted: { $exists: false } });
-      return fish;
-    } catch (err) {
-      console.log(err.message);
-      throw new StandardError({
-        success: false,
-        status: err.status,
-        message: err.message,
-      });
-    }
+    const fish = await this.db
+      .collection("fishes")
+      .findOne({ name, isDeleted: { $exists: false } });
+    return fish;
   }
 
   async findByGenderAndSort({ gender, sortOptions }) {
-    try {
-      const fish = await this.db
-        .collection("fishes")
-        .find({ gender, isDeleted: { $exists: false } })
-        .sort(sortOptions)
-        .toArray();
-      return fish;
-    } catch (err) {
-      console.log(err.message);
-      throw new StandardError({
-        success: false,
-        status: err.status,
-        message: err.message,
-      });
-    }
+    const fish = await this.db
+      .collection("fishes")
+      .find({ gender, isDeleted: { $exists: false } })
+      .sort(sortOptions)
+      .toArray();
+    return fish;
+  }
+
+  async findByTypeAndSort({ type, sortOptions }) {
+    const fish = await this.db
+      .collection("fishes")
+      .find({ type, isDeleted: { $exists: false } })
+      .sort(sortOptions)
+      .toArray();
+    return fish;
   }
 
   async createFish({

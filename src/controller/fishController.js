@@ -50,6 +50,13 @@ async function getFishByGender(req, res, next) {
   );
 }
 
+async function getFishByType(req, res, next) {
+  const { type, sort } = req.query;
+  await handleRequest(req, res, next, (fishService) =>
+    fishService.getFishByType({ type, sort })
+  );
+}
+
 async function updateFish(req, res, next) {
   const { id } = req.params;
   const fishData = {
@@ -73,6 +80,7 @@ module.exports = {
   addFish,
   getFishByName,
   getFishByGender,
+  getFishByType,
   updateFish,
   deleteFish,
 };
