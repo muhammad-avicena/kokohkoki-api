@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const logger = require("morgan");
+const createError = require("http-errors");
 const databaseMiddleware = require("./src/middleware/databaseMiddleware");
 const checkConnectionDb = require("./src/db/database");
 const errorHandlerMiddleware = require("./src/middleware/errorHandlerMiddleware");
@@ -28,6 +29,15 @@ app.use("/api/v1/user", userRouter);
 
 // Error handler middleware
 app.use(errorHandlerMiddleware);
+app.use(function (req, res, next) {
+  next(createError(404));
+});
+
+app.use(function (err, req, res, next) {
+  res.locals.message = err.message;
+  res.status(err.status || 500);
+  res.json({ success: false, message: err.message });
+});
 
 // App listeners
 app.listen(PORT, () => {
