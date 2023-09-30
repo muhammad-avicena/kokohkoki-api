@@ -284,15 +284,6 @@ class FishService {
     isAvailable,
   }) {
     try {
-      const isNameTaken = await this.fishDao.findByName({ name });
-      if (isNameTaken) {
-        throw new StandardError({
-          success: false,
-          message: `The fish name "${name}" is not available. Please try another`,
-          status: 409,
-        });
-      }
-
       const fish = await this.fishDao.updateFish({
         id,
         name,
