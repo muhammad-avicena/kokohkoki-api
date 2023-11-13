@@ -149,11 +149,104 @@ class FishService {
     }
   }
 
+  async getFishByEvent({ isEvent, sort }) {
+    const defaultSort = "asc";
+
+    const allowedSort = ["asc", "desc"];
+    const selectedSort = allowedSort.includes(sort) ? sort : defaultSort;
+
+    const sortOptions = {};
+    if (selectedSort === "asc") {
+      sortOptions.createdDate = 1;
+    } else if (selectedSort === "desc") {
+      sortOptions.createdDate = -1;
+    } else {
+      throw new StandardError({
+        success: false,
+        message: "Invalid sort parameter. Only asc or desc sort are allowed.",
+        status: 400,
+      });
+    }
+
+    try {
+      const fish = await this.fishDao.findByEvent({ isEvent, sortOptions });
+      if (!fish) {
+        throw new StandardError({
+          success: false,
+          message:
+            "Can't find a fish by Event. Please try again or contact developer",
+          status: 404,
+        });
+      } else {
+        return {
+          success: true,
+          message: "List of fish by Event",
+          data: fish,
+          status: 200,
+        };
+      }
+    } catch (err) {
+      console.log(err.message);
+      throw new StandardError({
+        success: false,
+        status: err.status,
+        message: err.message,
+      });
+    }
+  }
+
+  async getFishByNewArrival({ isNewArrival, sort }) {
+    const defaultSort = "asc";
+
+    const allowedSort = ["asc", "desc"];
+    const selectedSort = allowedSort.includes(sort) ? sort : defaultSort;
+
+    const sortOptions = {};
+    if (selectedSort === "asc") {
+      sortOptions.createdDate = 1;
+    } else if (selectedSort === "desc") {
+      sortOptions.createdDate = -1;
+    } else {
+      throw new StandardError({
+        success: false,
+        message: "Invalid sort parameter. Only asc or desc sort are allowed.",
+        status: 400,
+      });
+    }
+
+    try {
+      const fish = await this.fishDao.findByNewArrival({
+        isNewArrival,
+        sortOptions,
+      });
+      if (!fish) {
+        throw new StandardError({
+          success: false,
+          message:
+            "Can't find a fish by New Arrival. Please try again or contact developer",
+          status: 404,
+        });
+      } else {
+        return {
+          success: true,
+          message: "List of fish by New Arrival",
+          data: fish,
+          status: 200,
+        };
+      }
+    } catch (err) {
+      console.log(err.message);
+      throw new StandardError({
+        success: false,
+        status: err.status,
+        message: err.message,
+      });
+    }
+  }
+
   async getFishByType({ type, sort }) {
     try {
       const defaultSort = "asc";
-
-      console.log(type, sort, "isi type");
 
       const allowedSort = ["asc", "desc"];
       const selectedSort = allowedSort.includes(sort) ? sort : defaultSort;
@@ -219,6 +312,8 @@ class FishService {
     image2,
     image3,
     videoURL,
+    isEvent,
+    isNewArrival,
     isAvailable,
   }) {
     try {
@@ -242,6 +337,8 @@ class FishService {
         image2,
         image3,
         videoURL,
+        isEvent,
+        isNewArrival,
         isAvailable,
       });
 
@@ -281,6 +378,8 @@ class FishService {
     image2,
     image3,
     videoURL,
+    isEvent,
+    isNewArrival,
     isAvailable,
   }) {
     try {
@@ -296,6 +395,8 @@ class FishService {
         image2,
         image3,
         videoURL,
+        isEvent,
+        isNewArrival,
         isAvailable,
       });
 

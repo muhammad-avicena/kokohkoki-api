@@ -42,6 +42,24 @@ class FishDao {
     return fish;
   }
 
+  async findByEvent({ isEvent, sortOptions }) {
+    const fish = await this.db
+      .collection("fishes")
+      .find({ isEvent, isDeleted: { $exists: false } })
+      .sort(sortOptions)
+      .toArray();
+    return fish;
+  }
+
+  async findByNewArrival({ isNewArrival, sortOptions }) {
+    const fish = await this.db
+      .collection("fishes")
+      .find({ isNewArrival, isDeleted: { $exists: false } })
+      .sort(sortOptions)
+      .toArray();
+    return fish;
+  }
+
   async createFish({
     name,
     type,
@@ -53,6 +71,8 @@ class FishDao {
     image2,
     image3,
     videoURL,
+    isEvent,
+    isNewArrival,
     isAvailable,
   }) {
     const newDate = new Date();
@@ -74,6 +94,8 @@ class FishDao {
       images,
       videoURL,
       isAvailable,
+      isEvent,
+      isNewArrival,
       createdDate,
     };
 
@@ -102,6 +124,8 @@ class FishDao {
     image2,
     image3,
     videoURL,
+    isEvent,
+    isNewArrival,
     isAvailable,
   }) {
     const objectId = new ObjectId(id);
@@ -122,6 +146,8 @@ class FishDao {
     }
     if (videoURL !== undefined) updateObject.videoURLs = videoURL;
     if (isAvailable !== undefined) updateObject.isAvailable = isAvailable;
+    if (isEvent !== undefined) updateObject.isEvent = isEvent;
+    if (isNewArrival !== undefined) updateObject.isNewArrival = isNewArrival;
 
     const updateFish = await this.db.collection("fishes").findOneAndUpdate(
       { _id: objectId },

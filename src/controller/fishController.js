@@ -43,6 +43,20 @@ async function getFishByName(req, res, next) {
   );
 }
 
+async function getFishByEvent(req, res, next) {
+  const { isEvent, sort } = req.query;
+  await handleRequest(req, res, next, (fishService) =>
+    fishService.getFishByEvent({ isEvent, sort })
+  );
+}
+
+async function getFishByNewArrival(req, res, next) {
+  const { isNewArrival, sort } = req.query;
+  await handleRequest(req, res, next, (fishService) =>
+    fishService.getFishByNewArrival({ isNewArrival, sort })
+  );
+}
+
 async function getFishByGender(req, res, next) {
   const { gender, sort } = req.query;
   await handleRequest(req, res, next, (fishService) =>
@@ -83,4 +97,6 @@ module.exports = {
   getFishByType,
   updateFish,
   deleteFish,
+  getFishByEvent,
+  getFishByNewArrival,
 };
