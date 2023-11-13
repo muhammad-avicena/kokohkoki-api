@@ -1,31 +1,19 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const logger = require("morgan");
+const useMiddleware = require("./src/middleware");
+const routes = require("./src/router");
 const createError = require("http-errors");
-const databaseMiddleware = require("./src/middleware/databaseMiddleware");
 const checkConnectionDb = require("./src/db/database");
 const errorHandlerMiddleware = require("./src/middleware/errorHandlerMiddleware");
 require("dotenv").config();
-
-// Import router files
-const authRouter = require("./src/router/authRoutes");
-const fishRouter = require("./src/router/fishRoutes");
-const userRouter = require("./src/router/userRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Middleware
-app.use(logger("dev"));
-app.use(bodyParser.json());
-app.use(cors());
-app.use(databaseMiddleware);
+useMiddleware(app);
 
 // Routes
-app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/fish", fishRouter);
-app.use("/api/v1/user", userRouter);
+app.use(routes)
 
 // Error handler middleware
 app.use(errorHandlerMiddleware);
