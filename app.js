@@ -1,10 +1,10 @@
+require("dotenv").config();
 const express = require("express");
 const useMiddleware = require("./src/middleware");
 const routes = require("./src/router");
 const createError = require("http-errors");
 const checkConnectionDb = require("./src/db/database");
 const errorHandlerMiddleware = require("./src/middleware/errorHandlerMiddleware");
-require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 8080;
