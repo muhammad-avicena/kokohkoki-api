@@ -44,16 +44,16 @@ async function getFishByName(req, res, next) {
 }
 
 async function getFishByEvent(req, res, next) {
-  const { isEvent, sort } = req.query;
+  const { sort } = req.query;
   await handleRequest(req, res, next, (fishService) =>
-    fishService.getFishByEvent({ isEvent, sort })
+    fishService.getFishByEvent({ sort })
   );
 }
 
 async function getFishByNewArrival(req, res, next) {
-  const { isNewArrival, sort } = req.query;
+  const { sort } = req.query;
   await handleRequest(req, res, next, (fishService) =>
-    fishService.getFishByNewArrival({ isNewArrival, sort })
+    fishService.getFishByNewArrival({ sort })
   );
 }
 

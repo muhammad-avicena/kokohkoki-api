@@ -149,7 +149,7 @@ class FishService {
     }
   }
 
-  async getFishByEvent({ isEvent, sort }) {
+  async getFishByEvent({ sort }) {
     const defaultSort = "asc";
 
     const allowedSort = ["asc", "desc"];
@@ -169,7 +169,7 @@ class FishService {
     }
 
     try {
-      const fish = await this.fishDao.findByEvent({ isEvent, sortOptions });
+      const fish = await this.fishDao.findByEvent({ sortOptions });
       if (!fish) {
         throw new StandardError({
           success: false,
@@ -195,7 +195,7 @@ class FishService {
     }
   }
 
-  async getFishByNewArrival({ isNewArrival, sort }) {
+  async getFishByNewArrival({ sort }) {
     const defaultSort = "asc";
 
     const allowedSort = ["asc", "desc"];
@@ -216,8 +216,7 @@ class FishService {
 
     try {
       const fish = await this.fishDao.findByNewArrival({
-        isNewArrival,
-        sortOptions,
+        sortOptions
       });
       if (!fish) {
         throw new StandardError({

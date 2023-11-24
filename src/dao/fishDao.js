@@ -42,19 +42,19 @@ class FishDao {
     return fish;
   }
 
-  async findByEvent({ isEvent, sortOptions }) {
+  async findByEvent({ sortOptions }) {
     const fish = await this.db
       .collection("fishes")
-      .find({ isEvent, isDeleted: { $exists: false } })
+      .find({ isEvent: true, isDeleted: { $exists: false } })
       .sort(sortOptions)
       .toArray();
     return fish;
   }
 
-  async findByNewArrival({ isNewArrival, sortOptions }) {
+  async findByNewArrival({ sortOptions }) {
     const fish = await this.db
       .collection("fishes")
-      .find({ isNewArrival, isDeleted: { $exists: false } })
+      .find({ isNewArrival: true, isDeleted: { $exists: false } })
       .sort(sortOptions)
       .toArray();
     return fish;
